@@ -1,7 +1,7 @@
-require 'lua/config/lazy'
-require 'lua/config/keymaps'
-require 'lua/config/settings'
-require 'lua/config/autocmd'
-require 'lua/config/lsp'
+require 'config.lazy'
+require 'config.keymaps'
+require 'config.settings'
+require 'config.autocmd'
+require 'config.lsp'
 
 vim.cmd('colorscheme kanagawa-dragon')
