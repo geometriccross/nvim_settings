@@ -1,23 +1,16 @@
 return {
+	-- cmp settings are in lua/config/cmp.lua
 	'hrsh7th/nvim-cmp',
 	dependencies = {
 		'hrsh7th/cmp-nvim-lsp',
-	},
-	config = function()
-		local cmp = require 'cmp'
-		local map = cmp.mapping
-		cmp.setup {
-			mapping = map.preset.insert {
-				['<C-d>'] = map.scroll_docs(-4),
-				['<C-f>'] = map.scroll_docs(4),
-				['<C-Space>'] = map.complete(),
-				['<C-e>'] = map.abort(),
-				['<CR>'] = map.confirm { select = false },
+		{
+			'L3MON4D3/LuaSnip',
+			version = "v2.*",
+			dependencies = {
+				'saadparwaiz1/cmp_luasnip',
+				-- add pre configured snippets
+				'rafamadriz/friendly-snippets',
 			},
-
-			sources = cmp.config.sources {
-				{ name = 'nvim_lsp' },
-			},
-		}
-	end
+		},
+	}
 }
