@@ -2,7 +2,7 @@
 vim.keymap.set('i', 'jj', '<Esc>')
 
 -- escape from terminal
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>')
 
 -- tab switch keymaps
 vim.keymap.set('n', '<C-h>', '<C-w>h')
