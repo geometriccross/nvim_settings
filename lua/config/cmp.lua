@@ -55,11 +55,12 @@ cmp.setup {
 			luasnip.lsp_expand(args.body)
 		end,
 	},
+}
 
+if not vim.fn.has('win32') then
 	require('luasnip.loaders.from_vscode').lazy_load({
 		paths = {
 			os.getenv('HOME') .. '/.local/share/nvim/lazy/friendly-snippets'
 		}
 	})
-
-}
+end
