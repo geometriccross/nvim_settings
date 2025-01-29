@@ -10,3 +10,8 @@ vim.keymap.set('n', '<C-l>', '<C-w>l')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
 
+# indent
+vim.keymap.set("n", "<TAB>", ">>")
+vim.keymap.set("n", "<S-TAB>", "<<")
+vim.keymap.set("v", "<TAB>", ">gv")
+vim.keymap.set("v", "<S-TAB>", "<gv")
