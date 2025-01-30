@@ -16,7 +16,6 @@ local term = Terminal:new({
 	size = term_size
 })
 
-<<<<<<< Updated upstream
 --- Check if a file or directory exists in this path
 local function exists(file)
 	local ok, err, code = os.rename(file, file)
@@ -51,18 +50,3 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 		end
 	end,
 })
-=======
--- vim.api.nvim_create_autocmd('BufWritePost', {
--- 	desc = 'run shellspec if spec folder exists',
--- 	pattern = '*.sh',
--- 	callback = function()
--- 		if not term:is_open() then
--- 			term:open()
--- 			term:resize(term_size)
--- 		end
---
--- 		term:resize(term_size)
--- 		term:send('shellspec')
--- 	end,
--- })
->>>>>>> Stashed changes
