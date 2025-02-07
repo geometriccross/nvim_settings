@@ -10,7 +10,7 @@ return {
 	suggestion = { enabled = false },
 	panel = { enabled = false },
 	copilot_node_command = 'node',
-	config = function ()
+	config = function()
 		require('copilot').setup({})
 	end,
 
