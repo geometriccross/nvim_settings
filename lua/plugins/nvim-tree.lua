@@ -13,14 +13,16 @@ return {
 			desc = "Toggle Tree"
 		}
 	},
-	filters = {
-		git_ignored = false,
-		custom = {
-			"^\\.git",
-			"^node_modules",
-		},
-	},
 	config = function()
-		require("nvim-tree").setup {}
+		require("nvim-tree").setup {
+			filters = {
+				git_ignored = false,
+				dofile = true,
+				custom = {
+					"^\\.git$",
+					"^node_modules",
+				},
+			},
+		}
 	end,
 }
