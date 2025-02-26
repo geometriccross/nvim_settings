@@ -17,7 +17,6 @@ return {
 		require("nvim-tree").setup {
 			filters = {
 				git_ignored = false,
-				dofile = true,
 				custom = {
 					"^\\.git$",
 					"^node_modules",
