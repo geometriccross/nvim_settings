@@ -1,5 +1,7 @@
--- get dir path that has mason, lazy dir
--- and you can appended passed path
+local function remove_extension(filename)
+    -- 最後のドットから末尾までを除去
+    return filename:match("(.+)%.[^%.]+$") or filename
+end
 
 function LibPath(stdpath, path)
 	-- if passed like this 'hoge/aaa', it need to add / in top of string
