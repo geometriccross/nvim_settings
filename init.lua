@@ -1,11 +1,4 @@
 require 'config.lazy'
-require 'config.keymaps'
-require 'config.settings'
-require 'config.autocmd'
-require 'config.cmp'
-require 'config.tree'
-
-require 'lsp.mason'
-require 'lsp.racket'
+require 'config.combinator'
 
 vim.cmd('colorscheme kanagawa-dragon')
