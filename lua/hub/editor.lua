@@ -22,11 +22,7 @@ local function scandir(directory, disable_postfix)
     return result
 end
 
-if vim.g.vscode then
-    print("Running in VSCode")
-    return {}
-else
-    print("Running in Neovim")
+local function get_plugins()
     local plugin_path = vim.fn.stdpath("config") .. "/lua/plugins/"
     local module_table = {}
     for _, entry in ipairs(scandir(plugin_path)) do
@@ -34,5 +30,13 @@ else
     end
 
     return module_table
+end
+
+if vim.g.vscode then
+    print("Running in VSCode")
+    return {}
+else
+    print("Running in Neovim")
+    return get_plugins()
 end
 
