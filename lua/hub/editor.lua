@@ -22,10 +22,13 @@ local function scandir(directory, disable_postfix)
     return result
 end
 
+local function plugin_path()
+    return vim.fn.stdpath("config") .. "/lua/plugins/"
+end
+
 local function get_plugins()
-    local plugin_path = vim.fn.stdpath("config") .. "/lua/plugins/"
-    local module_table = {}
-    for _, entry in ipairs(scandir(plugin_path)) do
+        local module_table = {}
+    for _, entry in ipairs(scandir(plugin_path())) do
         table.insert(module_table, require("plugins." .. remove_extension(entry.name)))
     end
 
