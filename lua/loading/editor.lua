@@ -14,7 +14,7 @@ local function scandir(directory, disable_postfix)
     while true do
         local name, type = vim.loop.fs_scandir_next(handle)
         if not name then break end
-if disable_postfix then
+        if disable_postfix then
             name = remove_extension(name)
         end
         table.insert(result, { name = name, type = type })
@@ -27,10 +27,10 @@ if vim.g.vscode then
     return {}
 else
     print("Running in Neovim")
-    local pathes = vim.split(vim.fn.stdpath('config') .. 'plugins')
+    local plugin_path = vim.fn.stdpath("config") .. "/lua/plugins/"
     local module_table = {}
-    for _, path in ipairs(pathes) do
-        module_table.insert(require(path))
+    for _, entry in ipairs(scandir(plugin_path)) do
+        table.insert(module_table, require("plugins." .. remove_extension(entry.name)))
     end
 
     return module_table
