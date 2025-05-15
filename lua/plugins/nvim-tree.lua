@@ -15,6 +15,8 @@ return {
 	},
 	config = function()
 		require("nvim-tree").setup {
+---@diagnostic disable-next-line: undefined-global
+			sort_by = sort_by_natural,
 			filters = {
 				git_ignored = false,
 				custom = {

@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 return {
 	'akinsho/toggleterm.nvim',
 	config = function()
