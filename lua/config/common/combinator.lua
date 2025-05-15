@@ -1,6 +1,6 @@
-require 'config.settings'
-require 'config.keymaps'
-require 'config.autocmd'
+require 'config.common.settings'
+require 'config.common.keymaps'
+require 'config.common.autocmd'
 
 if not vim.g.vscode then
     require 'config.cmp'

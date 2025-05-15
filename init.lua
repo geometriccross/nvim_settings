@@ -1,4 +1,4 @@
-require 'config.lazy'
-require 'config.combinator'
+require 'config.common.lazy'
+require 'config.common.combinator'
 
 vim.cmd('colorscheme kanagawa-dragon')
