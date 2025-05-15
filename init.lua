@@ -3,7 +3,7 @@ require 'config.keymaps'
 require 'config.settings'
 require 'config.autocmd'
 require 'config.cmp'
-require 'config.nvim-tree'
+require 'config.tree'
 
 require 'lsp.mason'
 require 'lsp.racket'
