@@ -52,16 +52,16 @@ local function ignore_plugin(name, tbl)
 end
 
 local function ignore_plugins(names, tbl)
-local result = {}
+    local result = {}
     for _, value in ipairs(tbl) do
-local should_include = true
+        local should_include = true
         for _, name in ipairs(names) do
             if value.name == name then
                 should_include = false
                 break
             end
         end
-if should_include then
+        if should_include then
             table.insert(result, value)
         end
     end
@@ -90,8 +90,20 @@ if vim.g.vscode then
         "which_key",
     }
 
-    print("Ignoring plugins: " .. ignore_plugins(ignore_list, plg))
-    return ignore_plugins(ignore_list, plg)
+    -- プラグイン一覧をログに出力
+    print("All plugins:")
+    for i, plugin in ipairs(plg) do
+        print(i, plugin.name)
+    end
+    
+    -- 除外後のプラグイン一覧
+    local filtered_plugins = ignore_plugins(ignore_list, plg)
+    print("After filtering, plugins remaining:")
+    for i, plugin in ipairs(filtered_plugins) do
+        print(i, plugin.name)
+    end
+    
+    return filtered_plugins
 else
     print("Running in Neovim")
     return get_plugins()
