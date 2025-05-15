@@ -19,3 +19,27 @@ function FileExists(name)
 		return false
 	end
 end
+
+function Remove_extension(filename)
+    -- 最後のドットから末尾までを除去
+    return filename:match("(.+)%.[^%.]+$") or filename
+end
+
+function Scandir(directory, disable_postfix)
+    disable_postfix = disable_postfix or false
+    local handle = vim.loop.fs_scandir(directory)
+    if not handle then
+        return {}
+    end
+
+    local result = {}
+    while true do
+        local name, type = vim.loop.fs_scandir_next(handle)
+        if not name then break end
+        if disable_postfix then
+            name = remove_extension(name)
+        end
+        table.insert(result, { name = name, type = type })
+    end
+    return result
+end
