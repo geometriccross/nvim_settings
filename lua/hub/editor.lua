@@ -75,8 +75,8 @@ if vim.g.vscode then
     local ignore_list = {
         "avante",
         "gitsigns",
-        "lualine"
-        "conraahau",
+        "lualine",
+        "conjur",
         "mason",
         "nvim-autopairs",
         "nvim-cmp",
