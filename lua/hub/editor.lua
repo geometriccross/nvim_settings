@@ -29,7 +29,13 @@ end
 local function get_plugins()
     local module_table = {}
     for _, entry in ipairs(scandir(plugin_path())) do
-        table.insert(module_table, require("plugins." .. remove_extension(entry.name)))
+        local plugin_name = remove_extension(entry.name)
+        local plugin = require("plugins." .. plugin_name)
+        
+        -- name プロパティがないなら追加する
+        plugin.name = plugin.name or plugin_name
+        
+        table.insert(module_table, plugin)
     end
 
     return module_table
@@ -46,12 +52,17 @@ local function ignore_plugin(name, tbl)
 end
 
 local function ignore_plugins(names, tbl)
-    result = {}
+local result = {}
     for _, value in ipairs(tbl) do
+local should_include = true
         for _, name in ipairs(names) do
-            if value.name ~= name then
-                table.insert(result, value)
+            if value.name == name then
+                should_include = false
+                break
             end
+        end
+if should_include then
+            table.insert(result, value)
         end
     end
     return result
