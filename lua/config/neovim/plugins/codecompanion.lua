@@ -5,26 +5,47 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 	},
 	opts = {
-		-- NOTE: The log_level is in `opts.opts`
+		strategies = {
+			chat = {
+				adapter = {
+					name = "copilot",
+					model = "gpt-4o"
+				},
+				tools = {
+					opts = {
+						auto_submit_errors = true,
+						auto_submit_success = true
+					}
+				},
+				complemention_provider = "cmp",
+				roles = {
+					---The header name for the LLM's messages
+					---@type string|fun(adapter: CodeCompanion.Adapter): string
+					llm = function(adapter)
+						return "🤖 (" .. adapter.model.name .. ")"
+					end,
+					user = "Me"
+				}
+			}
+		},
+		display = {
+			chat = {
+				intro_message = "こんにちは! どのようにお手伝いできますか？",
+				separator = "-",
+				show_header_separator = true
+			}
+		},
 		opts = {
 			language = "Japanese",
-			log_level = "DEBUG", -- or "TRACE"
-			strategies = {
-				chat = { adapter = "copilot" },
-				inline = { adapter = "copilot" },
-			},
-			adapters = {
-				-- copilotアダプタを上書き
-				copilot = function()
-					return require("codecompanion.adapters").extend("copilot", {
-						schema = {
-							model = {
-								default = "claude-4.5-sonnet",
-							},
-						},
-					})
-				end,
-			},
-		},
-	},
+			complemention_provider = "cmp",
+			---Decorate the user message before it's sent to the LLM
+			---@param message string
+			---@param adapter CodeCompanion.Adapter
+			---@param context table
+			---@return string
+			prompt_decorator = function(message, adapter, context)
+				return string.format([[<prompt>%s</prompt>]], message)
+			end,
+		}
+	}
 }
