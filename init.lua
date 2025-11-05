@@ -19,6 +19,7 @@ if vim.g.vscode then
 else
     require 'config.neovim.autocmd'
     require 'config.neovim.cmp'
+	require 'config.neovim.lsp'
 end
 
 vim.cmd('colorscheme kanagawa-dragon')
