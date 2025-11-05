@@ -10,6 +10,20 @@ return {
 					},
 				}
 			end
+		},
+		{
+			'theHamsta/nvim-treesitter-pairs',
+			config = function()
+				require('nvim-treesitter.configs').setup {
+					pairs = {
+						enable = true,
+						keymaps = {
+							goto_partner = "F",
+							delete_balanced = "X",
+						},
+					},
+				}
+			end
 		}
 	},
 	opts = {
