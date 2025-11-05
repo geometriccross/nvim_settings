@@ -4,7 +4,7 @@ local ensure_installed = {
 	'bashls',
 	'lua_ls',
 	'powershell_es',
-	'shfmt',
+	'copilot',
 }
 
 require('mason-lspconfig').setup {
