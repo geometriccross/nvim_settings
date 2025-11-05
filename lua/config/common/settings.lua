@@ -23,3 +23,18 @@ vim.schedule(
 		vim.opt.clipboard = 'unnamedplus'
 	end
 )
+
+-- https://www.reddit.com/r/neovim/comments/1e3wn02/wsl2_remove_cr_carriage_return_m_on_paste_or_on/?tl=ja
+local function augroup(name)
+	return vim.api.nvim_create_augroup("zenedit_" .. name, { clear = true })
+end
+
+-- windowsからペーストされた場合にcrを削除
+vim.api.nvim_create_autocmd({ "BufReadPost", "TextChanged", "TextChangedI" }, {
+	group = augroup("remove_cr"),
+	callback = function()
+		if vim.bo.modifiable then
+			pcall(vim.cmd, [[%s/\r//g]])
+		end
+	end,
+})
