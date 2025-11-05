@@ -9,7 +9,7 @@ return {
 			chat = {
 				adapter = {
 					name = "copilot",
-					model = "gpt-4o"
+					model = "claude-sonnet-4.5"
 				},
 				tools = {
 					opts = {
@@ -26,7 +26,7 @@ return {
 					end,
 					user = "Me"
 				}
-			}
+			},
 		},
 		display = {
 			chat = {
