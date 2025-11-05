@@ -23,11 +23,11 @@ vim.lsp.config('powershell_es', {
 	settings = { powershell = { codeFormatting = { Preset = 'OTBS' } } },
 })
 
-
+local nvim_lsp = require('lspconfig')
 vim.lsp.config('racket_langserver', {
 	cmd = { "racket", "--lib", "racket-langserver" },
 	filetypes = { "racket", "rkt" },
-	root_dir = util.root_pattern("info.rkt", ".git") or util.path.dirname,
+	root_dir = nvim_lsp.util.root_pattern("info.rkt", ".git") or nvim_lsp.util.path.dirname,
 	settings = {},
 })
 
