@@ -7,7 +7,24 @@ return {
 	opts = {
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
-		log_level = "DEBUG", -- or "TRACE"
+			language = "Japanese",
+			log_level = "DEBUG", -- or "TRACE"
+			strategies = {
+				chat = { adapter = "copilot" },
+				inline = { adapter = "copilot" },
+			},
+			adapters = {
+				-- copilotアダプタを上書き
+				copilot = function()
+					return require("codecompanion.adapters").extend("copilot", {
+						schema = {
+							model = {
+								default = "claude-4.5-sonnet",
+							},
+						},
+					})
+				end,
+			},
 		},
 	},
 }
