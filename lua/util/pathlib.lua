@@ -45,3 +45,10 @@ function Scandir(directory, disable_postfix)
     end
     return result
 end
+
+return {
+	LibPath = LibPath,
+	FileExists = FileExists,
+	Remove_extension = Remove_extension,
+	Scandir = Scandir,
+}
