@@ -24,6 +24,8 @@ cmp.setup {
 				cmp.select_next_item()
 				-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
 				-- they way you will only jump inside the snippet region
+			elseif require('copilot.suggestion').is_visible() then
+				require('copilot.suggestion').accept()
 			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			elseif has_words_before() then
@@ -45,9 +47,9 @@ cmp.setup {
 	},
 
 	sources = cmp.config.sources {
+		{ name = 'copilot' },
 		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-		{ name = 'copilot' }
+		{ name = 'luasnip' }
 	},
 
 	snippet = {
