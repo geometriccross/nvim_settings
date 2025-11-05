@@ -1,6 +1,6 @@
 return {
-	'nvim-mini/min.surround',
+	"nvim-mini/mini.surround",
 	confg = function()
-		require('mini.surround').setup()
+		require("mini_surround").setup()
 	end,
 }
