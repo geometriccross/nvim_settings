@@ -18,7 +18,6 @@ if vim.g.vscode then
     -- vscode specific settings
 else
     require 'config.neovim.autocmd'
-    require 'config.neovim.cmp'
 	require 'config.neovim.lsp'
 end
 

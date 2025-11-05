@@ -1,13 +1,22 @@
 return {
 	"zbirenbaum/copilot.lua",
-	dependencies = { "zbirenbaum/copilot-cmp" },
 	cmd = 'Copilot',
 	event = "InsertEnter",
 	config = function()
-		require('copilot_cmp').setup()
 		require("copilot").setup {
-			suggestion = { enabled = false },
-			panel = { enabled = false },
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				keymap = {
+					accept = false,  -- Tabキーはcmp.luaで制御
+					accept_word = false,
+					accept_line = false,
+					next = "<M-]>",
+					prev = "<M-[>",
+					dismiss = "<C-]>",
+				},
+			},
+			panel = { enabled = true },
 			server_opts_overrides = {
 				trace = "verbose",
 				cmd = {
@@ -25,3 +34,4 @@ return {
 		}
 	end,
 }
+
