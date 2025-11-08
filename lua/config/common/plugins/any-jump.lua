@@ -1,3 +1,3 @@
 return {
-    'pechorin/any-jump.vim'
+	"pechorin/any-jump.vim",
 }

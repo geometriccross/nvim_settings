@@ -1,8 +1,8 @@
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
 	callback = function()
 		vim.highlight.on_yank()
 	end,
@@ -26,19 +26,19 @@ local function isdir(path)
 	return exists(path .. "/")
 end
 
-vim.api.nvim_create_autocmd('BufWritePost', {
-	desc = 'run shellspec if spec folder exists',
-	pattern = '*.sh',
+vim.api.nvim_create_autocmd("BufWritePost", {
+	desc = "run shellspec if spec folder exists",
+	pattern = "*.sh",
 	callback = function()
 		-- check current directory has spec folder
-		if isdir(vim.fn.getcwd() .. '/spec') then
+		if isdir(vim.fn.getcwd() .. "/spec") then
 			if not term:is_open() then
 				term:open()
 				term:resize(term_size)
 			end
 
 			term:clear()
-			term:send('shellspec')
+			term:send("shellspec")
 		end
 	end,
 })

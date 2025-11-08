@@ -9,13 +9,13 @@ return {
 			chat = {
 				adapter = {
 					name = "copilot",
-					model = "claude-sonnet-4.5"
+					model = "claude-sonnet-4.5",
 				},
 				tools = {
 					opts = {
 						auto_submit_errors = true,
-						auto_submit_success = true
-					}
+						auto_submit_success = true,
+					},
 				},
 				complemention_provider = "cmp",
 				roles = {
@@ -24,16 +24,16 @@ return {
 					llm = function(adapter)
 						return "🤖 (" .. adapter.model.name .. ")"
 					end,
-					user = "Me"
-				}
+					user = "Me",
+				},
 			},
 		},
 		display = {
 			chat = {
 				intro_message = "こんにちは! どのようにお手伝いできますか？",
 				separator = "-",
-				show_header_separator = true
-			}
+				show_header_separator = true,
+			},
 		},
 		opts = {
 			language = "Japanese",
@@ -46,6 +46,6 @@ return {
 			prompt_decorator = function(message, adapter, context)
 				return string.format([[<prompt>%s</prompt>]], message)
 			end,
-		}
-	}
+		},
+	},
 }

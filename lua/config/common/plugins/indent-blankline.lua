@@ -5,6 +5,6 @@ return {
 	---@type ibl.config
 	opts = {},
 	config = function()
-		require('ibl').setup()
-	end
+		require("ibl").setup()
+	end,
 }

@@ -1,6 +1,6 @@
 return {
-	'mvllow/modes.nvim',
+	"mvllow/modes.nvim",
 	config = function()
-		require('modes').setup {}
-	end
+		require("modes").setup({})
+	end,
 }

@@ -1,5 +1,5 @@
 return {
-	'yamatsum/nvim-cursorline',
+	"yamatsum/nvim-cursorline",
 	cursorline = {
 		enable = true,
 		timeout = 1000,
@@ -9,5 +9,5 @@ return {
 		enable = true,
 		min_length = 3,
 		hl = { underline = true },
-	}
+	},
 }

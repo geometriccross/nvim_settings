@@ -1,14 +1,14 @@
 return {
 	"zbirenbaum/copilot.lua",
-	cmd = 'Copilot',
+	cmd = "Copilot",
 	event = "InsertEnter",
 	config = function()
-		require("copilot").setup {
+		require("copilot").setup({
 			suggestion = {
 				enabled = true,
 				auto_trigger = true,
 				keymap = {
-					accept = false,  -- Tabキーはcmp.luaで制御
+					accept = false, -- Tabキーはcmp.luaで制御
 					accept_word = false,
 					accept_line = false,
 					next = "<M-]>",
@@ -21,7 +21,7 @@ return {
 				trace = "verbose",
 				cmd = {
 					vim.fn.expand("~/.local/share/nvim/mason/bin/copilot-language-server"),
-					"--stdio"
+					"--stdio",
 				},
 				settings = {
 					advanced = {
@@ -31,7 +31,6 @@ return {
 				},
 			},
 			filetypes = { ["*"] = true },
-		}
+		})
 	end,
 }
-

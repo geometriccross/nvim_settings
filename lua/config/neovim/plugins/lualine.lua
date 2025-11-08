@@ -1,12 +1,12 @@
 return {
-	'nvim-lualine/lualine.nvim',
+	"nvim-lualine/lualine.nvim",
 	config = function()
-		require('lualine').setup({
+		require("lualine").setup({
 			options = {
-				theme = 'gruvbox-material',
-				section_separators = { left = '', right = '' },
-				component_separators = { left = '', right = '' },
+				theme = "gruvbox-material",
+				section_separators = { left = "", right = "" },
+				component_separators = { left = "", right = "" },
 			},
 		})
-	end
+	end,
 }

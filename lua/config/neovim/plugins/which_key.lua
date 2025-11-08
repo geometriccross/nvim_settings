@@ -4,8 +4,8 @@ return {
 	opts = {
 		triggers = {
 			{ "<auto>", mode = "nixsotc" },
-			{ "a",      mode = { "n", "v" } },
-		}
+			{ "a", mode = { "n", "v" } },
+		},
 	},
 	keys = {
 		{
