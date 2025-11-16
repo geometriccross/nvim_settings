@@ -17,7 +17,7 @@ return {
 						auto_submit_success = true,
 					},
 				},
-				complemention_provider = "cmp",
+				complemention_provider = "blink",
 				roles = {
 					---The header name for the LLM's messages
 					---@type string|fun(adapter: CodeCompanion.Adapter): string
