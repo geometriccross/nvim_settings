@@ -16,10 +16,13 @@ return {
 			indent = {
 				enable = true,
 			},
-			context_commentstring = {
-				enable = true,
-				enable_autocmd = false,
-			},
+			context_commentstring = function()
+				vim.g.skip_ts_context_commentstring_module = true
+				require("ts_context_commentstring").setup({
+					enable = true,
+					enable_autocmd = false,
+				})
+			end,
 			disable = function(lang, buf)
 				local max_filesize = 100 * 1024 -- 100 KB
 				local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
