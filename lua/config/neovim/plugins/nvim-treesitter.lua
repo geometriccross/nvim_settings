@@ -1,11 +1,9 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	branch = "main",
 	lazy = false,
 	build = ":TSUpdate",
 	dependencies = {
 		"RRethy/nvim-treesitter-endwise",
-		"theHamsta/nvim-treesitter-pairs",
 	},
 	config = function()
 		require("nvim-treesitter.configs").setup({
@@ -30,14 +28,6 @@ return {
 				end
 			end,
 			endwise = { enable = true }, -- Enable nvim-treesitter-endwise
-			-- Enable nvim-treesitter-pairs
-			pairs = {
-				enable = true,
-				keymaps = {
-					goto_partner = "F",
-					delete_balanced = "X",
-				},
-			},
 		})
 	end,
 }
