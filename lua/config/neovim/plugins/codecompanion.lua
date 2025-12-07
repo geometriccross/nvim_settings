@@ -12,9 +12,15 @@ return {
 					model = "claude-sonnet-4.5",
 				},
 				tools = {
-					opts = {
-						auto_submit_errors = true,
-						auto_submit_success = true,
+					["web_search"] = {
+						callback = "strategies.chat.tools.catalog.web_search",
+						description = "Web上の情報を検索します",
+						opts = {
+							adapter = "tavily",
+							opts = {
+								search_depth = "advanced", -- "basic" または "advanced"
+							},
+						},
 					},
 				},
 				roles = {
