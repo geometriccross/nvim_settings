@@ -16,12 +16,7 @@
 require("mason").setup()
 
 -- Mason-lspconfig: Bridge between mason.nvim and nvim-lspconfig
-local ensure_installed = {
-	"bashls",
-	"lua_ls",
-	"powershell_es",
-	"copilot",
-}
+local ensure_installed = { "bashls", "lua_ls", "powershell_es", "copilot" }
 
 require("mason-lspconfig").setup({
 	automatic_installation = true,
@@ -31,13 +26,12 @@ require("mason-lspconfig").setup({
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		python = { "euff" },
+		python = { "ruff" },
 		javascript = { "prettierd", "prettier", stop_after_first = true },
 	},
 	format_on_save = {
 		-- These options will be passed to conform.format()
-		async = false,
-		timeout_ms = 500,
+		timeout_ms = 2000,
 		lsp_format = "fallback",
 	},
 })
