@@ -23,4 +23,4 @@ else
 	require("config.neovim.lsp")
 end
 
-vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd [[colorscheme tokyonight]]
