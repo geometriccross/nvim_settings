@@ -8,7 +8,7 @@ function SetupLazy(spec)
 		if vim.v.shell_error ~= 0 then
 			vim.api.nvim_echo({
 				{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-				{ out, "WarningMsg" },
+				{ out,                            "WarningMsg" },
 				{ "\nPress any key to exit..." },
 			}, true, {})
 			vim.fn.getchar()
@@ -29,8 +29,7 @@ function SetupLazy(spec)
 		-- Configure any other settings here. See the documentation for more details.
 		-- colorscheme that will be used when installing plugins.
 		install = { colorscheme = { "habamax" } },
-		-- automatically check for plugin updates
-		checker = { enabled = true },
+		checker = { enabled = true }, -- automatically check for plugin updates
 		change_detection = { notify = false },
 		ui = {
 			icons = {
@@ -49,20 +48,7 @@ function SetupLazy(spec)
 				lazy = "💤 ",
 			},
 		},
-		diff = {
-			cmd = "delta",
-		},
-		rtp = {
-			disabled_plugins = {
-				"gzip",
-				"matchit",
-				"matchparen",
-				"netrwPlugin",
-				"tarPlugin",
-				"tohtml",
-				"tutor",
-				"zipPlugin",
-			},
-		},
+		diff = { cmd = "delta" },
+		rtp = { disabled_plugins = { "gzip", "matchit", "matchparen", "netrwPlugin", "tarPlugin", "tohtml", "tutor", "zipPlugin" } },
 	})
 end
