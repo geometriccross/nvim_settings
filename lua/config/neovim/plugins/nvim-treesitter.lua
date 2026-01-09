@@ -2,35 +2,8 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	lazy = false,
 	build = ":TSUpdate",
-	dependencies = {
-		"RRethy/nvim-treesitter-endwise",
-	},
+	dependencies = { "RRethy/nvim-treesitter-endwise" },
 	config = function()
-		require("nvim-treesitter.configs").setup({
-			ensure_installed = { "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-			sync_install = true,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			indent = {
-				enable = true,
-			},
-			context_commentstring = function()
-				vim.g.skip_ts_context_commentstring_module = true
-				require("ts_context_commentstring").setup({
-					enable = true,
-					enable_autocmd = false,
-				})
-			end,
-			disable = function(lang, buf)
-				local max_filesize = 100 * 1024 -- 100 KB
-				local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-				if ok and stats and stats.size > max_filesize then
-					return true
-				end
-			end,
-			endwise = { enable = true }, -- Enable nvim-treesitter-endwise
-		})
+		require 'nvim-treesitter'.install { "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" }
 	end,
 }
