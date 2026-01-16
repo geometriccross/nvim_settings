@@ -1,94 +1,118 @@
--- ============================================================================
--- LSP Configuration
--- ============================================================================
--- This file contains all LSP-related configurations including:
--- 1. Plugin definitions (Mason, Mason-lspconfig, nvim-lspconfig)
--- 2. LSP server installations and settings
--- 3. Keymaps and autocommands
--- 4. Diagnostic settings
--- ============================================================================
-
--- ============================================================================
--- 1. Plugin Definitions and Setup
--- ============================================================================
-
--- Mason: Package manager for LSP servers, DAP servers, linters, and formatters
 require("mason").setup()
 
--- Mason-lspconfig: Bridge between mason.nvim and nvim-lspconfig
-local ensure_installed = { "bashls", "lua_ls", "powershell_es", "copilot" }
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 require("mason-lspconfig").setup({
 	automatic_installation = true,
-	ensure_installed = ensure_installed,
+	ensure_installed = {
+		"bashls",
+		"lua_ls",
+		"powershell_es",
+		"copilot",
+		"ruff",
+		"pyright",
+	},
+	handlers = {
+		function(server_name)
+			vim.lsp.config(server_name, {
+				capabilities = capabilities,
+			})
+			vim.lsp.enable(server_name)
+		end,
+
+		["ruff"] = function()
+			vim.lsp.config("ruff", {
+				capabilities = vim.tbl_deep_extend("force", capabilities, {
+					offsetEncoding = { "utf-16" },
+				}),
+				on_attach = function(client, _)
+					client.server_capabilities.hoverProvider = false
+				end,
+			})
+			vim.lsp.enable("ruff")
+		end,
+
+		["pyright"] = function()
+			vim.lsp.config("pyright", {
+				capabilities = capabilities,
+				settings = {
+					python = {
+						analysis = {
+							autoSearchPaths = true,
+							diagnosticMode = "openFilesOnly",
+							useLibraryCodeForTypes = true,
+							typeCheckingMode = "standard",
+						},
+					},
+				},
+			})
+			vim.lsp.enable("pyright")
+		end,
+
+		["powershell_es"] = function()
+			vim.lsp.config("powershell_es", {
+				capabilities = capabilities,
+				on_attach = function(_, bufnr)
+					vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+				end,
+				filetypes = { "ps1", "psm1", "psd1" },
+				bundle_path = vim.fn.expand(
+					vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services"
+				),
+				settings = { powershell = { codeFormatting = { Preset = "OTBS" } } },
+			})
+			vim.lsp.enable("powershell_es")
+		end,
+	},
 })
+
+vim.lsp.config("racket_langserver", {
+	cmd = { "racket", "--lib", "racket-langserver" },
+	filetypes = { "racket", "rkt" },
+	root_markers = { "info.rkt", ".git" },
+	capabilities = capabilities,
+})
+vim.lsp.enable("racket_langserver")
 
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		python = { "ruff" },
+		python = { "ruff_format" },
 		javascript = { "prettierd", "prettier", stop_after_first = true },
 	},
 	format_on_save = {
-		-- These options will be passed to conform.format()
 		timeout_ms = 2000,
 		lsp_format = "fallback",
 	},
 })
 
--- ============================================================================
--- 2. LSP Server Configurations
--- ============================================================================
+vim.api.nvim_create_user_command("Format", function(args)
+	local range = nil
+	if args.count ~= -1 then
+		local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+		range = {
+			start = { args.line1, 0 },
+			["end"] = { args.line2, end_line:len() },
+		}
+	end
+	require("conform").format({ async = true, lsp_format = "fallback", range = range })
+end, { range = true })
 
-local nvim_lsp = require("lspconfig")
-
--- PowerShell Language Server
-vim.lsp.config("powershell_es", {
-	on_attach = function(_, bufnr)
-		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-	end,
-	filetypes = { "ps1", "psm1", "psd1" },
-	bundle_path = vim.fn.expand(vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services"),
-	settings = { powershell = { codeFormatting = { Preset = "OTBS" } } },
-})
-
--- Racket Language Server
-vim.lsp.config("racket_langserver", {
-	cmd = { "racket", "--lib", "racket-langserver" },
-	filetypes = { "racket", "rkt" },
-	root_dir = nvim_lsp.util.root_pattern("info.rkt", ".git") or nvim_lsp.util.path.dirname,
-	settings = {},
-})
-
--- ============================================================================
--- 3. Diagnostic Settings
--- ============================================================================
-
--- Global diagnostic keymaps
--- See `:help vim.diagnostic.*` for documentation
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "Open diagnostic float" })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "Set diagnostic loclist" })
 
--- ============================================================================
--- 4. LSP Attach Autocommand and Buffer Keymaps
--- ============================================================================
-
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
-		-- If using nvim-cmp or blink-cmp, omnifunc response is overridden,
-		-- so the below line is not necessary
-		-- vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-		-- Buffer local mappings
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		local opts = { buffer = ev.buf }
 
-		-- Hover and signature help
+		if client and client.server_capabilities.semanticTokensProvider then
+			client.server_capabilities.semanticTokensProvider = nil
+		end
+
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "LSP Hover" }))
 		vim.keymap.set(
 			"n",
@@ -96,8 +120,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.buf.signature_help,
 			vim.tbl_extend("force", opts, { desc = "LSP Signature Help" })
 		)
-
-		-- Workspace management
 		vim.keymap.set(
 			"n",
 			"<space>wa",
@@ -113,8 +135,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<space>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, vim.tbl_extend("force", opts, { desc = "List workspace folders" }))
-
-		-- Code actions
 		vim.keymap.set(
 			"n",
 			"<space>rn",
@@ -127,11 +147,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.buf.code_action,
 			vim.tbl_extend("force", opts, { desc = "LSP Code Action" })
 		)
+		vim.keymap.set({ "n", "v" }, "<space>f", function()
+			require("conform").format({ async = true, lsp_format = "fallback" })
+		end, vim.tbl_extend("force", opts, { desc = "Format file" }))
 	end,
 })
-
--- ============================================================================
--- 5. Enable LSP Servers
--- ============================================================================
-
-vim.lsp.enable(ensure_installed)
