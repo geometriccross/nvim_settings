@@ -4,7 +4,7 @@ return {
 	build = ":TSUpdate",
 	dependencies = { "RRethy/nvim-treesitter-endwise" },
 	config = function()
-		require 'nvim-treesitter'.install {
+		require("nvim-treesitter").install({
 			"lua",
 			"vim",
 			"vimdoc",
@@ -23,7 +23,13 @@ return {
 			"vue",
 			"python",
 			"bash",
-			"zsh"
-		}
+			"zsh",
+		})
+
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function()
+				pcall(vim.treesitter.start)
+			end,
+		})
 	end,
 }
